@@ -2,7 +2,10 @@
 
 #include "GAM_415_FinalProjProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Components/SphereComponent.h"
+#include "Components/DecalComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AGAM_415_FinalProjProjectile::AGAM_415_FinalProjProjectile() 
 {
@@ -16,8 +19,14 @@ AGAM_415_FinalProjProjectile::AGAM_415_FinalProjProjectile()
 	CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));
 	CollisionComp->CanCharacterStepUpOn = ECB_No;
 
+	// Create default subobject for the ball mesh
+	ballMesh = CreateDefaultSubobject<UStaticMeshComponent>("Ball Mesh");
+
 	// Set as root component
 	RootComponent = CollisionComp;
+
+	// Attach ball mesh to collision component
+	ballMesh->SetupAttachment(CollisionComp);
 
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
@@ -39,5 +48,28 @@ void AGAM_415_FinalProjProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* O
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
 		Destroy();
+	}
+
+	// Check if other actor is not null
+	if (OtherActor != nullptr)
+	{
+		// set values for floats between 0 and 1
+		float ranNumX = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
+		float ranNumY = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
+		float ranNumZ = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
+
+		// set value for float frame between 0 and 3
+		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
+
+		// Create FVector 4 with random color values; opacity is default at 1
+		FVector4 randColor = FVector4(ranNumX, ranNumY, ranNumZ, 1.f);
+
+		// Create decal at hit location
+		auto Decal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), baseMat, FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)), Hit.Location, Hit.Normal.Rotation(), 0.f);
+		auto MatInstance = Decal->CreateDynamicMaterialInstance();
+
+		// Change the parameter values of color and frame
+		MatInstance->SetVectorParameterValue("Color", randColor);
+		MatInstance->SetScalarParameterValue("Frame", frameNum);
 	}
 }

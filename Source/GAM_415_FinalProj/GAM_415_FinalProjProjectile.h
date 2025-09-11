@@ -22,21 +22,40 @@ class AGAM_415_FinalProjProjectile : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
-	// refrence to the projectile mesh
+	// COMMENT HERE
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ballMesh;
+
+	// umaterial for the base material; blueprint read write so that I can assign material in editor to avoid null ptr
+	UPROPERTY(EditAnywhere)
+	class UMaterialInterface* baseMat;
+
+	// COMMENT HERE
+	UPROPERTY()
+	FLinearColor randColor;
+
+	// COMMENT HERE
+	UPROPERTY(EditAnywhere)
+	UMaterialInterface* projMat;
+
+	// COMMENT HERE
+	UPROPERTY()
+	UMaterialInstanceDynamic* dmiMat;
 
 
 public:
 	AGAM_415_FinalProjProjectile();
 
+protected:
+	virtual void BeginPlay();
+
+public:
+
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
-	// umaterial for the base material; blueprint read write so that I can assign material in editor to avoid null ptr
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
-	class UMaterialInterface* baseMat;
+	
 
 	/** Returns CollisionComp subobject **/
 	USphereComponent* GetCollisionComp() const { return CollisionComp; }

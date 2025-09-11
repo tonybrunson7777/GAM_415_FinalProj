@@ -40,6 +40,17 @@ AGAM_415_FinalProjProjectile::AGAM_415_FinalProjProjectile()
 	InitialLifeSpan = 3.0f;
 }
 
+void AGAM_415_FinalProjProjectile::BeginPlay()
+{
+	Super::BeginPlay();
+	randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
+
+	dmiMat = UMaterialInstanceDynamic::Create(projMat, this);
+	ballMesh->SetMaterial(0, dmiMat);
+
+	dmiMat->SetVectorParameterValue("ProjColor", randColor);
+}
+
 void AGAM_415_FinalProjProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	// Only add impulse and destroy projectile if we hit a physics
@@ -53,16 +64,9 @@ void AGAM_415_FinalProjProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* O
 	// Check if other actor is not null
 	if (OtherActor != nullptr)
 	{
-		// set values for floats between 0 and 1
-		float ranNumX = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-		float ranNumY = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-		float ranNumZ = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
 
 		// set value for float frame between 0 and 3
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
-
-		// Create FVector 4 with random color values; opacity is default at 1
-		FVector4 randColor = FVector4(ranNumX, ranNumY, ranNumZ, 1.f);
 
 		// Create decal at hit location
 		auto Decal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), baseMat, FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)), Hit.Location, Hit.Normal.Rotation(), 0.f);

@@ -22,23 +22,23 @@ class AGAM_415_FinalProjProjectile : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
-	// COMMENT HERE
+	// create a static mesh component for the ball
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ballMesh;
 
-	// umaterial for the base material; blueprint read write so that I can assign material in editor to avoid null ptr
+	// create a material interface for the base material
 	UPROPERTY(EditAnywhere)
 	class UMaterialInterface* baseMat;
 
-	// COMMENT HERE
+	// create a random color variable
 	UPROPERTY()
 	FLinearColor randColor;
 
-	// COMMENT HERE
+	// create a material interface for the projectile material
 	UPROPERTY(EditAnywhere)
 	UMaterialInterface* projMat;
 
-	// COMMENT HERE
+	// create a dynamic material instance
 	UPROPERTY()
 	UMaterialInstanceDynamic* dmiMat;
 

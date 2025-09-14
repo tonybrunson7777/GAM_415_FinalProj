@@ -43,11 +43,15 @@ AGAM_415_FinalProjProjectile::AGAM_415_FinalProjProjectile()
 void AGAM_415_FinalProjProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Set random color value between 0 and 1 for RGB
 	randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
 
+	// Create dynamic material instance and set to ball mesh
 	dmiMat = UMaterialInstanceDynamic::Create(projMat, this);
 	ballMesh->SetMaterial(0, dmiMat);
 
+	// Set the parameter value of ProjColor to the random color
 	dmiMat->SetVectorParameterValue("ProjColor", randColor);
 }
 

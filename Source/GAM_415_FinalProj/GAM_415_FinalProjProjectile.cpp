@@ -6,6 +6,8 @@
 #include "Components/SphereComponent.h"
 #include "Components/DecalComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 AGAM_415_FinalProjProjectile::AGAM_415_FinalProjProjectile() 
 {
@@ -68,6 +70,13 @@ void AGAM_415_FinalProjProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* O
 	// Check if other actor is not null
 	if (OtherActor != nullptr)
 	{
+		if (colorP)
+		{
+			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(-20.f, 0.f, 0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+			ballMesh->DestroyComponent();
+			CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
+		}
 
 		// set value for float frame between 0 and 3
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);

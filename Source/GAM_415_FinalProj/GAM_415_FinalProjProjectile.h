@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class UNiagaraSystem;
 
 UCLASS(config=Game)
 class AGAM_415_FinalProjProjectile : public AActor
@@ -41,6 +42,10 @@ class AGAM_415_FinalProjProjectile : public AActor
 	// create a dynamic material instance
 	UPROPERTY()
 	UMaterialInstanceDynamic* dmiMat;
+
+	// create a niagara system for the projectile impact
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* colorP;
 
 
 public:

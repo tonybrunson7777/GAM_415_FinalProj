@@ -4,6 +4,8 @@
 #include "CubeDMIMod.h"
 #include "GAM_415_FinalProjCharacter.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 ACubeDMIMod::ACubeDMIMod()
@@ -66,7 +68,7 @@ void ACubeDMIMod::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		float ranNumZ = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
 
 		// Set a 4 Vector to the random values
-		FVector4 randColor = FVector4(ranNumX, ranNumY, ranNumZ, 1.f);
+		FLinearColor randColor = FLinearColor(ranNumX, ranNumY, ranNumZ, 1.f);
 
 		// Check if dmiMat is valid
 		if (dmiMat)
@@ -77,6 +79,14 @@ void ACubeDMIMod::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			dmiMat->SetScalarParameterValue("Darkness", ranNumX);
 			// Change random opacity
 			dmiMat->SetScalarParameterValue("Opacity", ranNumY);
+			
+			if (colorP)
+			{
+				// COMMENT HERE
+				UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, OtherComp, NAME_None, FVector(0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+				// Set Niagara variable
+				particleComp->SetNiagaraVariableLinearColor(FString("RandColor"), randColor);
+			}
 		}
 	}
 }

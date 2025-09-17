@@ -72,8 +72,8 @@ void AGAM_415_FinalProjProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* O
 	{
 		if (colorP)
 		{
-			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(-20.f, 0.f, 0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
-			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+			particleComp->SetNiagaraVariableLinearColor(FString("RandColor"), randColor);
 			ballMesh->DestroyComponent();
 			CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
 		}

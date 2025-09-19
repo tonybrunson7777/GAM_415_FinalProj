@@ -47,6 +47,8 @@ class AGAM_415_FinalProjProjectile : public AActor
 	UPROPERTY(EditAnywhere)
 	UNiagaraSystem* colorP;
 
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* muzzleFlash;
 
 public:
 	AGAM_415_FinalProjProjectile();

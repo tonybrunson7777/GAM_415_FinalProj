@@ -14,6 +14,7 @@ class UInputAction;
 class UInputMappingContext;
 struct FInputActionValue;
 
+
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
@@ -44,6 +45,7 @@ class AGAM_415_FinalProjCharacter : public ACharacter
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
+
 	
 public:
 	AGAM_415_FinalProjCharacter();

@@ -9,6 +9,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 
+
 AGAM_415_FinalProjProjectile::AGAM_415_FinalProjProjectile() 
 {
 	// Use a sphere as a simple collision representation
@@ -70,6 +71,7 @@ void AGAM_415_FinalProjProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* O
 	// Check if other actor is not null
 	if (OtherActor != nullptr)
 	{
+		// Check if colorP is valid
 		if (colorP)
 		{
 			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
